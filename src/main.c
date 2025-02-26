@@ -1,49 +1,50 @@
-﻿#define _XOPEN_SOURCE 700
+﻿#define _XOPEN_SOURCE 700 // Включение расширенных возможностей POSIX для совместимости
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<locale.h>
-#include "dirwalk.h"
+#include<stdio.h> // Библиотека для ввода-вывода
+#include<stdlib.h> // Библиотека для стандартных функций
+#include<unistd.h> // Библиотека для работы с системными вызовами
+#include<locale.h> // Библиотека для работы с локалями, используется для установки локали сортировки
+#include "dirwalk.h" // Заголовочный файл для функции dirwalk
 
 int main(int argc, char *argv[]) {
-    int opt;
-    int opt_l = 0, opt_d = 0, opt_f = 0, opt_s = 0;
-    char *dir = ".";
+    int opt; // Переменная для хранения текущей опции командной строки
+    int opt_l = 0, opt_d = 0, opt_f = 0, opt_s = 0; // Флаги для опций
+    char *dir = "."; // Переменная для хранения пути к директории (по умолчанию текущая директория)
 
     // Обработка опций командной строки
     while ((opt = getopt(argc, argv, "ldfs")) != -1) {
         switch (opt) {
             case 'l':
-                opt_l = 1;
+                opt_l = 1; // Включить опцию -l
                 break;
             case 'd':
-                opt_d = 1;
+                opt_d = 1; // Включить опцию -d 
                 break;
             case 'f':
-                opt_f = 1;
+                opt_f = 1; // Включить опцию -f 
                 break;
             case 's':
-                opt_s = 1;
+                opt_s = 1; // Включить опцию -s 
                 break;
             default:
+                // Вывод сообщения о правильном использовании программы
                 fprintf(stderr, "Usage: %s [dir] [-l] [-d] [-f] [-s]\n", argv[0]);
-                exit(EXIT_FAILURE);
+                exit(EXIT_FAILURE);// Завершить программу с ошибкой
         }
     }
 
     // Если указан каталог, используем его
     if (optind < argc) {
-        dir = argv[optind];
+        dir = argv[optind];// Устанавливаем новый каталог из аргументов командной строки
     }
 
     // Устанавливаем локаль для сортировки (если указана опция -s)
     if (opt_s) {
-        setlocale(LC_COLLATE, "");
+        setlocale(LC_COLLATE, ""); // Устанавливаем локаль для коллатора
     }
 
     // Запуск обхода директории
-    dirwalk(dir, opt_l, opt_d, opt_f, opt_s);
+    dirwalk(dir, opt_l, opt_d, opt_f, opt_s); // Вызов функции dirwalk для обхода директории
 
     return 0;
 }
