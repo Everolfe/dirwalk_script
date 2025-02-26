@@ -71,9 +71,9 @@ void dirwalk(const char *dir, int opt_l, int opt_d, int opt_f, int opt_s) {
             print_entry(dir, entries[i]->d_name);  // Выводим информацию о записи
         }
 
-        //if (S_ISDIR(statbuf.st_mode)) {
-        //    dirwalk(entries[i]->d_name, opt_l, opt_d, opt_f, opt_s);
-        //}
+        if (S_ISDIR(statbuf.st_mode)) {
+            dirwalk(entries[i]->d_name, opt_l, opt_d, opt_f, opt_s);
+        }
 
         free(entries[i]);  // Освобождаем память для текущего элемента
     }
