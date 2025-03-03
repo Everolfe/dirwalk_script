@@ -99,8 +99,16 @@ void traverse_directory(const char *base_path, const FilterOptions *options, Fil
         // Если объект удовлетворяет фильтру, сохраняем его
         if (matches_filter(&file_info, options)) add_to_file_list(file_list, path);
 
+<<<<<<< HEAD
         // Если это каталог, за исключением символических ссылок, заходим рекурсивно
         if (S_ISDIR(file_info.st_mode)) traverse_directory(path, options, file_list);
+=======
+        if (S_ISDIR(statbuf.st_mode)) {
+            dirwalk(entries[i]->d_name, opt_l, opt_d, opt_f, opt_s);
+        }
+
+        free(entries[i]);  // Освобождаем память для текущего элемента
+>>>>>>> 8f6d2e820329f03ac01e21954cf00165b760ec00
     }
     closedir(dir); // Закрываем директорию
 }
