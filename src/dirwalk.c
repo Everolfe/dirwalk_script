@@ -101,5 +101,7 @@ void traverse_directory(const char *base_path, const FilterOptions *options, Fil
 
         // Если это каталог, за исключением символических ссылок, заходим рекурсивно
         if (S_ISDIR(file_info.st_mode)) traverse_directory(path, options, file_list);
+    }
     closedir(dir); // Закрываем директорию
+    
 }
